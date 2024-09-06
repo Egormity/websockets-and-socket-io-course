@@ -1,0 +1,77 @@
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
+
+<style>
+  .container {
+    margin-top: 30px;
+  }
+  input {
+    height: 35px;
+    width: 100%;
+  }
+  #messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  #messages li {
+    padding: 5px 10px;
+  }
+  #message li:nth-child(odd) {
+    background-color: #929292;
+  }
+</style>
+
+<div class="container text-center">
+  <form class="row" id="message-form">
+    <div class="col-6">
+      <input id="user-message" type="text" placeholder="Enter your message" />
+    </div>
+    <div class="col-2">
+      <input class="btn btn-primary" type="submit" value="Send!" />
+    </div>
+  </form>
+
+  <ul id="messages">
+    <!-- THIS WILL BE POPULATED BY JAVASCRIPT! -->
+  </ul>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+  const socket = io('http://localhost:8001'); // The / namespace/endpoint
+  const socket2 = io('http://localhost:8001/admin'); // The / namespace/endpoint
+
+  socket.on('connect', () => {
+    console.log('You are connected!');
+    console.log(socket.id);
+  });
+
+  socket2.on('connect', () => {
+    console.log(socket2.id);
+  });
+
+  socket2.on('welcome', dataFromServer => {
+    console.log(dataFromServer);
+  });
+
+  //   socket.on('messageFromServer', dataFromServer => {
+  //     console.log(dataFromServer);
+  //     socket.emit('dataToServer', { data: 'Data from the client!' });
+  //   });
+
+  document.getElementById('message-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const input = document.getElementById('user-message');
+    const newMessage = input.value;
+    input.value = '';
+    socket.emit('newMessageToServer', { text: newMessage });
+  });
+
+  socket.on('messageToClients', dataFromServer => {
+    document.getElementById('messages').innerHTML += `<li>${dataFromServer.text}</li>`;
+  });
+</script>
