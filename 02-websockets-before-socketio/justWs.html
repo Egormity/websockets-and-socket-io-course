@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title>Document</title>
+    </head>
+
+    <!--  -->
+    <body>
+        <h1 id="message"></h1>
+    </body>
+
+    <!--  -->
+    <script>
+        const messageEl = document.getElementById("message");
+        const ws = new WebSocket("ws://localhost:8000");
+
+        // ws.onopen = e => console.log(e);
+        ws.onmessage = e => (messageEl.innerText = e.data);
+    </script>
+</html>
