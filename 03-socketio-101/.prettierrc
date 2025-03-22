@@ -1,0 +1,10 @@
+{
+    "printWidth": 300,
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": false,
+    "jsxSingleQuote": false,
+    "quoteProps": "consistent",
+    "arrowParens": "avoid",
+    "singleAttributePerLine": true
+}

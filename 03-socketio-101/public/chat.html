@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title>Document</title>
+    </head>
+    <link
+        rel="stylesheet"
+        href="style.css"
+    />
+
+    <!--  -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    </style>
+
+    <!--  -->
+    <body>
+        <h1 id="message-container"></h1>
+    </body>
+
+    <!--  -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const messageEl = document.getElementById("message-container");
+
+        //
+        const socket = io("http://localhost:8000");
+
+        //
+        socket.on("messageFromServer", data => {
+            messageEl.innerText = data.message;
+            if (data.styles)
+                Object.entries(data.styles).forEach(([key, value]) => (messageEl.style[key] = value));
+            socket.emit("messageToServer", `Hello from the frontend! ${new Date()}`);
+        });
+
+        //
+        socketAdmin.on("messageFromServer", data => {
+            messageEl.innerText = data.message;
+            if (data.styles)
+                Object.entries(data.styles).forEach(([key, value]) => (messageEl.style[key] = value));
+            socket.emit("messageToServer", `Hello from the frontend! ${new Date()}`);
+        });
+    </script>
+</html>
