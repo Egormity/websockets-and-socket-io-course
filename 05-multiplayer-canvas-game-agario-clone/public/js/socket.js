@@ -19,11 +19,17 @@ socket.on("initGameReturn", data => {
 	setInterval(() => socket.emit("playerUpdate", { data: { player } }), 1000 / 60);
 
 	// Receiver server update
-	socketGame.on("serverUpdate", data => {
+	socketGame.on("serverUsersUpdate", data => {
 		const { players: playersFromServer } = data.data;
 		players = playersFromServer;
 		player = playersFromServer.find(p => p.socketId === player.socketId);
 	});
+});
+
+// The server just told us that an orb was absorbed. Replace it in the orbs array!
+socket.on("orbSwitch", data => {
+	const { capturedOrbIndex, newOrb } = data.data;
+	orbs.splice(capturedOrbIndex, 1, newOrb);
 });
 
 // const init = async () => {

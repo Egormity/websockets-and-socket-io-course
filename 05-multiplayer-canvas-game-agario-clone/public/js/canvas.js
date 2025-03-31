@@ -12,7 +12,7 @@ const draw = () => {
 	players.forEach(p => {
 		context.beginPath();
 		context.fillStyle = "rgb(255, 0, 0)";
-		context.arc(p.data.locX, p.data.locY, 10, 0, Math.PI * 2);
+		context.arc(p.data.locX, p.data.locY, p.data.radius, 0, Math.PI * 2);
 		context.fill();
 		context.lineWidth = 3;
 		context.strokeStyle = "rgb(0, 255, 0)";

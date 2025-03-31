@@ -5,6 +5,8 @@ module.exports = class PlayerData {
 		this.locY = Math.round(settings.worldHeight * 0.1 + Math.random() * (settings.worldHeight - settings.worldHeight * 0.1));
 		this.radius = settings.defaultPlayerRadius;
 		this.color = this.getRandomColor();
+		this.score = 0;
+		this.orbsAbsorbed = 0;
 	}
 
 	//

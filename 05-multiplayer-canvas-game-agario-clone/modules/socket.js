@@ -5,9 +5,11 @@ const PlayerConfig = require("../classes/playerConfig");
 const PlayerData = require("../classes/playerData");
 const Player = require("../classes/player");
 
+const { checkForOrbCollisions, checkForPlayerCollisions } = require("./checkCollisions");
+
 // Settings
 const settings = {
-	defaultOrbsAmount: 500,
+	defaultOrbsAmount: 100,
 	defaultPlayerSpeed: 5,
 	defaultPlayerRadius: 10,
 	defaultPlayerZoom: 0.5,
@@ -37,14 +39,30 @@ io.sockets.on("connect", socket => {
 	// Update player position
 	socket.on("playerUpdate", data => {
 		const { player } = data.data;
+		if (!player) return;
+
+		//
 		for (const p of players) {
 			if (p.socketId === player.socketId) {
+				//
 				p.data.locX += player.config.xVector * p.config.speed;
 				p.data.locY += -player.config.yVector * p.config.speed;
+
+				//
 				if (p.data.locX <= 0) p.data.locX = 0;
 				if (p.data.locX >= settings.worldWidth) p.data.locX = settings.worldWidth;
 				if (p.data.locY <= 0) p.data.locY = 0;
 				if (p.data.locY >= settings.worldHeight) p.data.locY = settings.worldHeight;
+
+				// Orbs collision
+				const capturedOrbIndex = checkForOrbCollisions(p.data, p.config, orbs, settings);
+				if (capturedOrbIndex) io.sockets.emit("orbSwitch", { data: { capturedOrbIndex, newOrb: new Orb(settings) } });
+
+				// Player collision
+				const playerDeath = checkForPlayerCollisions(p.data, p.config, players, players, p.socketId);
+				if (playerDeath) console.log(123);
+
+				//
 				break;
 			}
 		}
@@ -52,7 +70,7 @@ io.sockets.on("connect", socket => {
 });
 
 // 30 fps update
-setInterval(() => io.of("/game").emit("serverUpdate", { data: { players } }), 1000 / 60);
+setInterval(() => io.of("/game").emit("serverUsersUpdate", { data: { players } }), 1000 / 60);
 
 // Default export
 module.exports = io;
