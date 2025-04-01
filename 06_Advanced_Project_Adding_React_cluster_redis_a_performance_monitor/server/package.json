@@ -1,0 +1,17 @@
+{
+  "name": "06_advanced_project_adding_react_cluster_redis_a_performance_monitor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "farmhash": "^4.0.1",
+    "socket.io-client": "^4.8.1",
+    "socket.io-redis": "^5.4.0"
+  }
+}
