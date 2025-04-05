@@ -10,8 +10,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "express": "^5.1.0",
     "farmhash": "^4.0.1",
-    "socket.io-client": "^4.8.1",
+    "mongoose": "^8.13.2",
+    "socket.io": "^4.8.1",
     "socket.io-redis": "^5.4.0"
   }
 }
