@@ -10,11 +10,11 @@ socket.on("connect", () => {
 	//
 	const nI = os.networkInterfaces();
 	const macA = Object.values(nI).find(el => !el[0].internal)[0].mac;
-	getPerformanceData().then(data => socket.emit("initPerformanceData", { data: { PerformanceData: { ...data, macA } } }));
+	getPerformanceData().then(data => socket.emit("initPerformanceData", { data: { performanceData: { ...data, macA } } }));
 
 	//
 	const perfDataInterval = setInterval(() => {
-		getPerformanceData().then(data => socket.emit("performanceData", { data: { PerformanceData: data } }));
+		getPerformanceData().then(data => socket.emit("performanceData", { data: { performanceData: data } }));
 	}, 1000);
 
 	//
